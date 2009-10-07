@@ -1,0 +1,7 @@
+*.pyc
+*.pyo
+/build
+/dist
+/temp
+/src/django_scheduledjobs.egg-info
+

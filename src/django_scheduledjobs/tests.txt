@@ -1,0 +1,30 @@
+Scheduled jobs
+==============
+
+    >>> import datetime
+    >>> from django_scheduledjobs import schedule_job, ScheduledJob
+
+Let's create some jobs:
+
+    >>> dt = datetime.timedelta(0)
+    >>> schedule_job(dt, 'django_scheduledjobs.tests.sample_job')
+
+You can pass in arguments to jobs:
+
+    >>> schedule_job(dt, 'django_scheduledjobs.tests.job_with_args',
+    ...              args=[11], kwargs=dict(k=12))
+
+You can also bind model objects to jobs.
+
+    TODO: bind to a sample model
+
+Now run the jobs:
+
+    >>> from django_scheduledjobs import run_jobs
+    >>> run_jobs()
+    Simple job executed.
+    Job with arguments: n = 11, k = 12
+
+Completed jobs have been removed so they will not be run again:
+
+    >>> run_jobs()

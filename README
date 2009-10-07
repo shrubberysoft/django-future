@@ -1,0 +1,31 @@
+-----
+About
+-----
+
+**django_scheduledjobs** is a tool for scheduling jobs on specific times.
+
+
+-----
+Usage
+-----
+
+First of all, you need to have **django_scheduledjobs** installed; for your
+convenience, recent versions should be available from PyPI.
+
+Use the ``django_scheduledjobs.schedule_job`` function to schedule new jobs:
+
+    >>> from django_scheduledjobs import schedule_job
+    >>> import datetime
+    >>> schedule_job(datetime.datetime(2010, 10, 10),
+    ...              'myproject.myapp.handlers.dosomething')
+
+To run outstanding jobs, use the Django management command 'runscheduledjobs'.
+
+--------
+Feedback
+--------
+
+There is a `home page <http://github.com/shrubberysoft/django_scheduledjobs>`_ with
+instructions on how to access the code repository.
+
+Send feedback and suggestions to team@shrubberysoft.com.

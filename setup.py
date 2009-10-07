@@ -21,7 +21,7 @@
 from setuptools import setup, find_packages
 
 setup(name='django_scheduledjobs',
-    version='0.1',
+    version='0.1.1',
     description='Scheduled jobs in Django',
     long_description=open('README').read(),
     author='Shrubbery Software',
@@ -30,7 +30,7 @@ setup(name='django_scheduledjobs',
     packages=find_packages('src'),
     package_dir={'' : 'src'},
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
         'Framework :: Django',
         'License :: OSI Approved :: MIT License',
     ]

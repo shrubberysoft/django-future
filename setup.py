@@ -20,13 +20,13 @@
 
 from setuptools import setup, find_packages
 
-setup(name='django_scheduledjobs',
+setup(name='django-scheduledjobs',
     version='0.1.1',
     description='Scheduled jobs in Django',
     long_description=open('README').read(),
     author='Shrubbery Software',
     author_email='team@shrubberysoft.com',
-    url='http://github.com/shrubberysoft/django_scheduledjobs',
+    url='http://github.com/shrubberysoft/django-scheduledjobs',
     packages=find_packages('src'),
     package_dir={'' : 'src'},
     classifiers=[

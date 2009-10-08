@@ -28,7 +28,7 @@ latest_changes = '\n\n\n'.join(changes[:3])
 
 
 setup(name='django-future',
-    version='0.1.4',
+    version='0.1.5',
     description='Scheduled jobs in Django',
     long_description=open('README').read() + '\n\n' + latest_changes,
     author='Shrubbery Software',
@@ -38,7 +38,7 @@ setup(name='django-future',
     package_dir={'' : 'src'},
     package_data={'django_future': ['*.txt']},
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Framework :: Django',
         'License :: OSI Approved :: MIT License',
     ]

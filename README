@@ -14,7 +14,7 @@ convenience, recent versions should be available from PyPI.
 
 Use the ``django_future.schedule_job`` function to schedule new jobs:
 
-    >>> from django_scheduledjobs import schedule_job
+    >>> from django_future import schedule_job
     >>> import datetime
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')

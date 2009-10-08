@@ -24,13 +24,23 @@ To schedule jobs from your code, use the ``schedule_job()`` function:
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')
 
-To run outstanding jobs, invoke the Django management command
-``runscheduledjobs``.  You will probably want to run this command
-regularly, perhaps in a cron job, to ensure that scheduled jobs
-are run in a timely manner.
+------------
+Running jobs
+------------
 
-Each job is run in a separate database transaction.  If an error is raised, the
-transaction is rolled back.
+Scheduled jobs will not start automagically.  The job queue must regularly
+be processed by invoking the Django management command
+``runscheduledjobs``.  You will probably want to run this command regularly,
+perhaps in a cron job, to ensure that scheduled jobs are run in a timely
+manner.
+
+Each job is run in a separate database transaction.  If the handler raises
+an error, the transaction is rolled back.
+
+By default, job entries for completed jobs are marked as finished, but not
+deleted from the database.  If you do not want to keep them, use the ``-d``
+parameter to ``runscheduledjobs`` and they will be deleted upon successful
+completion.
 
 ----------------
 Scheduling times

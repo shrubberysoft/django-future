@@ -79,7 +79,7 @@ Rescheduling
 
     >>> job2 = job.reschedule('3d')
     >>> job2.callable_name
-    'django_future.tests.job_job'
+    'django_future.tests.sample_job'
 
 Errors
 ------

@@ -20,7 +20,8 @@ To schedule jobs, use the ``django_future.schedule_job`` function:
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')
 
-To run outstanding jobs, use the Django management command 'runscheduledjobs'.
+To run outstanding jobs, use the Django management command
+``runscheduledjobs``.
 
 ----------------
 Scheduling times

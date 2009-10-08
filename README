@@ -29,6 +29,9 @@ To run outstanding jobs, invoke the Django management command
 regularly, perhaps in a cron job, to ensure that scheduled jobs
 are run in a timely manner.
 
+Each job is run in a separate database transaction.  If an error is raised, the
+transaction is rolled back.
+
 ----------------
 Scheduling times
 ----------------
@@ -104,9 +107,6 @@ The job runner does not do locking.  If you run it again while a previous run
 is still active, some jobs may be executed twice because of race conditions.
 
 Exceptions raised by jobs will simply crash the job runner with a traceback.
-
-Database transactions are not used for jobs. If you need transactional
-behaviour, you will have to implement it manually.
 
 --------
 Feedback

@@ -1,6 +1,7 @@
 """Django-future -- scheduled jobs in Django."""
 
 import datetime
+from django.db import transaction
 from django_future.models import ScheduledJob
 
 
@@ -59,6 +60,7 @@ def job_as_parameter(f):
     return f
 
 
+@transaction.commit_manually
 def run_jobs(delete_completed=False, now=None):
     """Run scheduled jobs.
 
@@ -72,21 +74,24 @@ def run_jobs(delete_completed=False, now=None):
                                        time_slot_start__lte=now,
                                        time_slot_end__gt=now)
     for job in jobs:
-        # TODO: transactions
         job.status = 'running'
         job.execution_start = datetime.datetime.now()
         job.save()
+        transaction.commit()
         try:
             job.run()
         except Exception:
             # TODO: Report problem; log?
-            # TODO: transactions
+            transaction.rollback()
             job.status = 'failed'
             job.save()
+            transaction.commit()
             raise
         else:
+            transaction.commit()
             if delete_completed:
                 job.delete()
             else:
                 job.status = 'complete'
                 job.save()
+            transaction.commit()

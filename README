@@ -9,29 +9,80 @@ About
 Usage
 -----
 
-First of all, you need to have **django_future** installed; for your
-convenience, recent versions should be available from PyPI.
+You need to have **django_future** installed. A recent versions should be
+available from PyPI.
 
-Use the ``django_future.schedule_job`` function to schedule new jobs:
+To schedule jobs, use the ``django_future.schedule_job`` function:
 
     >>> from django_future import schedule_job
     >>> import datetime
+
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')
 
 To run outstanding jobs, use the Django management command 'runscheduledjobs'.
 
+----------------
+Scheduling times
+----------------
+
+There are several ways to indicate the time the job should be executed.
+You can use a straight datetime (as above), but you can also specify an offset
+from the present.  The offset can be a specified as a timedelta:
+
+    >>> schedule_job(datetime.timedelta(days=5), 'myproject.myapp.x')
+
+or it can be a string:
+
+    >>> schedule_job('5d', 'myproject.myapp.x')
+
+An expiry time (one week by default) may also be specified so that old jobs
+will not be run by accident.
+
+    >>> schedule_job('5d', 'myproject.myapp.x', expires='7d')
+
+The expiry date is calculated relative to the scheduled time.
+
+----------
+Parameters
+----------
+
+You can pass parameters to jobs:
+
+    >>> schedule_job('5d', 'myproject.myapp.x',
+    ...              args=[1, 2], kwargs={'foo': 'bar'})
+
+The parameters will be passed on to the callable.  Note that the parameters
+have to be picklable.
+
+You can also associate a job with a database object:
+
+    >>> schedule_job('5d', 'myproject.myapp.x',
+    ...              content_object=some_model_instance)
+
+If specified, the content object will be passed in as the first parameter to
+the callable.
+
+If you decorate your handler using ``job_as_parameter``, the active job will be
+passed as a parameter:
+
+    >>> from django_future import job_as_parameter
+
+    >>> @job_as_parameter
+    ... def handler(job):
+    ...     do_stuff()
+
 -------
 Caveats
 -------
 
-The job runner does not do locking.  If you run it while a previous run
+The job runner does not do locking.  If you run it again while a previous run
 is still active, some jobs may be executed twice because of race conditions.
 
 Exceptions raised by jobs will simply crash the job runner with a traceback.
 
-Database transactions are not used for jobs. If you need transactions,
-you will have to handle them manually.
+Database transactions are not used for jobs. If you need transactional
+behaviour, you will have to handle them manually.
 
 --------
 Feedback

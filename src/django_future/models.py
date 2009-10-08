@@ -19,11 +19,13 @@ class ScheduledJob(models.Model):
         ('scheduled', 'Scheduled'),
         ('running', 'Running'),
         ('failed', 'Failed'),
-        ('complete', 'Complete')
+        ('complete', 'Complete'),
+        ('expired', 'Expired'),
     )
 
     time_slot_start = models.DateTimeField()
     time_slot_end = models.DateTimeField()
+    execution_start = models.DateTimeField(blank=True, null=True)
     status = models.CharField(choices=STATUSES, max_length=32,
                               default='scheduled')
 
@@ -38,7 +40,7 @@ class ScheduledJob(models.Model):
     def _get_args(self):
         return cPickle.loads(str(self.args_pickled))
     def _set_args(self, value):
-        self.args_pickled = cPickle.dumps(value)
+        self.args_pickled = cPickle.dumps(tuple(value))
     args = property(_get_args, _set_args)
 
     def _get_kwargs(self):
@@ -46,6 +48,10 @@ class ScheduledJob(models.Model):
     def _set_kwargs(self, value):
         self.kwargs_pickled = cPickle.dumps(value)
     kwargs = property(_get_kwargs, _set_kwargs)
+
+    def __repr__(self):
+        return '<ScheduledJob (%s) callable=%r>' % (
+                    self.status, self.callable_name)
 
     def run(self):
         # TODO: logging?
@@ -56,9 +62,9 @@ class ScheduledJob(models.Model):
             module = __import__(module_name, fromlist=[function_name])
             callable_func = getattr(module, function_name)
             if self.content_object is not None:
-                callable_func(self.content_object, *args, **kwargs)
-            else:
-                callable_func(*args, **kwargs)
+                args = [self.content_object] + list(args)
         else:
             callable_func = getattr(self.content_object, self.callable_name)
-            callable_func(*args, **kwargs)
+        if hasattr(callable_func, 'job_as_parameter'):
+            args = [self] + list(args)
+        callable_func(*args, **kwargs)

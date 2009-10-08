@@ -29,6 +29,7 @@ setup(name='django-future',
     url='http://github.com/shrubberysoft/django-future',
     packages=find_packages('src'),
     package_dir={'' : 'src'},
+    package_data={'django_future': ['*.txt']},
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django',

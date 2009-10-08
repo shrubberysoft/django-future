@@ -2,29 +2,87 @@ Scheduled jobs
 ==============
 
     >>> import datetime
-    >>> from django_future import schedule_job, ScheduledJob
+    >>> from django_future import schedule_job, ScheduledJob, run_jobs
 
-Let's create some jobs:
+    >>> for job in ScheduledJob.objects.all():
+    ...     job.delete()
 
-    >>> dt = datetime.timedelta(0)
+
+Scheduling
+----------
+
+Here's a very simple job.  We'll schedule it to run right away:
+
+    >>> schedule_job(datetime.datetime.now(), 'django_future.tests.sample_job')
+    <ScheduledJob (scheduled) callable='django_future.tests.sample_job'>
+    >>> run_jobs()
+    Simple job executed.
+
+Usually you will schedule a job run in the future:
+
+    >>> dt = datetime.datetime.now() + datetime.timedelta(hours=5)
     >>> schedule_job(dt, 'django_future.tests.sample_job')
+    <ScheduledJob (scheduled) callable='django_future.tests.sample_job'>
+
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(hours=3))
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(hours=4))
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(hours=5))
+    Simple job executed.
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(hours=6))
+
+You may also specify the time delay as a string:
+
+    >>> schedule_job('3d', 'django_future.tests.sample_job')
+    <ScheduledJob (scheduled) callable='django_future.tests.sample_job'>
+
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(days=2))
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(days=3))
+    Simple job executed.
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(days=4))
+
+Jobs are not run after their expiry date (one week after scheduled time by
+default) has passed:
+
+    >>> schedule_job('3d', 'django_future.tests.sample_job', expires='5d')
+    <ScheduledJob (scheduled) callable='django_future.tests.sample_job'>
+
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(days=9))
+    >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(days=7))
+    Simple job executed.
+
+Passing parameters
+------------------
 
 You can pass in arguments to jobs:
 
-    >>> schedule_job(dt, 'django_future.tests.job_with_args',
+    >>> schedule_job('0h', 'django_future.tests.job_with_args',
     ...              args=[11], kwargs=dict(k=12))
+    <ScheduledJob (scheduled) callable='django_future.tests.job_with_args'>
+    >>> run_jobs()
+    Job with arguments: n = 11, k = 12
+
+Handlers can request the job as a parameter:
+
+    >>> schedule_job('0h', 'django_future.tests.job_job')
+    <ScheduledJob (scheduled) callable='django_future.tests.job_job'>
+    >>> run_jobs()
+    Got job as argument: <ScheduledJob (running) callable=u'django_future.tests.job_job'>
 
 You can also bind model objects to jobs.
 
     TODO: bind to a sample model
 
-Now run the jobs:
+Errors
+------
 
-    >>> from django_future import run_jobs
-    >>> run_jobs()
-    Simple job executed.
-    Job with arguments: n = 11, k = 12
+Errors are currently not handled in any special way:
 
-Completed jobs have been removed so they will not be run again:
+    >>> job = schedule_job('0h', 'django_future.tests.failjob')
 
     >>> run_jobs()
+    Traceback (most recent call last):
+        ...
+    ValueError: fail
+
+    >>> ScheduledJob.objects.get(pk=job.id).status
+    u'failed'

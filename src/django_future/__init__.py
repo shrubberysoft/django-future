@@ -4,7 +4,7 @@ import datetime
 from django_future.models import ScheduledJob
 
 
-__all__ = ['schedule_job']
+__all__ = ['schedule_job', 'job_as_parameter']
 
 
 def schedule_job(date, callable_name, content_object=None, expires='7d',
@@ -39,6 +39,7 @@ def schedule_job(date, callable_name, content_object=None, expires='7d',
     job.args = args
     job.kwargs = kwargs
     job.save()
+    return job
 
 
 _TIMEDELTA_SUFFIXES = {'m': 'minutes',
@@ -53,17 +54,27 @@ def _parse_timedelta(s):
     return datetime.timedelta(**kwargs)
 
 
-def run_jobs():
-    """Run scheduled jobs."""
+def job_as_parameter(f):
+    f.job_as_parameter = True
+    return f
+
+
+def run_jobs(delete_completed=False, now=None):
+    """Run scheduled jobs.
+
+    You may specify a date to be treated as the current time.
+    """
     # TODO: locking; make sure that several instances of ``run_jobs`` are not
     # running concurrently.
-    now = datetime.datetime.now()
+    if now is None:
+        now = datetime.datetime.now()
     jobs = ScheduledJob.objects.filter(status='scheduled',
                                        time_slot_start__lte=now,
                                        time_slot_end__gt=now)
     for job in jobs:
         # TODO: transactions
-        job.status = 'active'
+        job.status = 'running'
+        job.execution_start = datetime.datetime.now()
         job.save()
         try:
             job.run()
@@ -74,5 +85,8 @@ def run_jobs():
             job.save()
             raise
         else:
-            job.status = 'complete'
-            job.save()
+            if delete_completed:
+                job.delete()
+            else:
+                job.status = 'complete'
+                job.save()

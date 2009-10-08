@@ -12,9 +12,14 @@ class Command(NoArgsCommand):
         make_option('--delete-completed', '-d', action='store_true',
                     dest='delete_completed',
                     help='Do not keep entries for completed jobs in the database.'),
+        make_option('--ignore-errors', '-i', action='store_true',
+                    dest='ignore_errors',
+                    help='Do not abort if a job handler raises an error.'),
     )
     help = "Executes any outstanding scheduled jobs."
 
     def handle(self, **options):
         delete_completed = bool(options.get('delete_completed', False))
-        run_jobs(delete_completed=delete_completed)
+        ignore_errors = bool(options.get('ignore_errors', False))
+        run_jobs(delete_completed=delete_completed,
+                 ignore_errors=ignore_errors)

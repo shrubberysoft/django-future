@@ -1,6 +1,7 @@
 """Django-future -- scheduled jobs in Django."""
 
 import datetime
+import traceback
 from django.db import transaction
 from django_future.models import ScheduledJob
 
@@ -61,7 +62,7 @@ def job_as_parameter(f):
 
 
 @transaction.commit_manually
-def run_jobs(delete_completed=False, now=None):
+def run_jobs(delete_completed=False, ignore_errors=False, now=None):
     """Run scheduled jobs.
 
     You may specify a date to be treated as the current time.
@@ -83,12 +84,15 @@ def run_jobs(delete_completed=False, now=None):
         try:
             job.run()
         except Exception:
-            # TODO: Report problem; log?
+            exc_text = traceback.format_exc()
             transaction.rollback()
+            job.error = exc_text
+            # TODO: complain somehow
             job.status = 'failed'
             job.save()
             transaction.commit()
-            raise
+            if not ignore_errors:
+                raise
         else:
             transaction.commit()
             if delete_completed:

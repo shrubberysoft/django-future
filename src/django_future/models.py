@@ -35,6 +35,11 @@ class ScheduledJob(models.Model):
     callable_name = models.CharField(max_length=255)
     args_pickled = models.TextField(editable=False)
     kwargs_pickled = models.TextField(editable=False)
+    error = models.TextField(blank=True, null=True)
+
+    class Meta:
+        get_latest_by = 'time_slot_start'
+        ordering = ['time_slot_start']
 
     def _get_args(self):
         return self._unpickle(self.args_pickled)

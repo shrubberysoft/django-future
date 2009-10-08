@@ -42,6 +42,11 @@ deleted from the database.  If you do not want to keep them, use the ``-d``
 parameter to ``runscheduledjobs`` and they will be deleted upon successful
 completion.
 
+If a job handler raises an error, the queue processor will abort and
+show the traceback.  If you do not want to abort the processing in such a case
+use the ``-i`` parameter.  Either way, if an exception occurs, the traceback
+will be stored on the job entry in the database.
+
 ----------------
 Scheduling times
 ----------------

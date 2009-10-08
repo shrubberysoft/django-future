@@ -66,8 +66,10 @@ def run_jobs(delete_completed=False, now=None):
 
     You may specify a date to be treated as the current time.
     """
-    # TODO: locking; make sure that several instances of ``run_jobs`` are not
-    # running concurrently.
+    if ScheduledJob.objects.filter(status='running'):
+        # TODO: this kind of test is unreliable: the other job processor
+        # could be inbetween jobs at the time of this check.
+        raise ValueError('jobs in progress found; aborting')
     if now is None:
         now = datetime.datetime.now()
     jobs = ScheduledJob.objects.filter(status='scheduled',

@@ -18,12 +18,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import os.path
 from setuptools import setup, find_packages
+
+# I owe Marius Gedminas for this snippet.
+changes_file = os.path.join(os.path.dirname(__file__), 'NEWS')
+changes = file(changes_file).read().split('\n\n\n')
+latest_changes = '\n\n\n'.join(changes[:3])
+
 
 setup(name='django-future',
     version='0.1',
     description='Scheduled jobs in Django',
-    long_description=open('README').read(),
+    long_description=open('README').read() + '\n\n' + latest_changes,
     author='Shrubbery Software',
     author_email='team@shrubberysoft.com',
     url='http://github.com/shrubberysoft/django-future',

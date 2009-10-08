@@ -1,0 +1,15 @@
+-------
+Changes
+-------
+
+Changes not yet released
+========================
+
+* Package renamed to `django-future`.
+* Tests added.
+
+
+Changes in version 0.1
+======================
+
+* Initial release.

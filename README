@@ -12,14 +12,15 @@ Usage
 First of all, you need to have **django_future** installed; for your
 convenience, recent versions should be available from PyPI.
 
-Use the ``django_future.schedule_job`` function to schedule new jobs:
+Use the ``django_future.schedule_job`` function to schedule new jobs::
 
     >>> from django_future import schedule_job
     >>> import datetime
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')
 
-To run outstanding jobs, use the Django management command 'runscheduledjobs'.
+To run outstanding jobs, use the Django management command
+``runscheduledjobs``.
 
 --------
 Feedback

@@ -30,6 +30,9 @@ is still active, some jobs may be executed twice because of race conditions.
 
 Exceptions raised by jobs will simply crash the job runner with a traceback.
 
+Database transactions are not used for jobs. If you need transactions,
+you will have to handle them manually.
+
 --------
 Feedback
 --------

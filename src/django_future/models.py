@@ -22,8 +22,8 @@ class ScheduledJob(models.Model):
         ('complete', 'Complete')
     )
 
-    time_slot_start = models.DateTimeField(default=datetime.datetime.now)
-    time_slot_end = models.DateTimeField(default=END_OF_TIME)
+    time_slot_start = models.DateTimeField()
+    time_slot_end = models.DateTimeField()
     status = models.CharField(choices=STATUSES, max_length=32,
                               default='scheduled')
 

@@ -33,8 +33,8 @@ class ScheduledJob(models.Model):
     content_object = generic.GenericForeignKey()
 
     callable_name = models.CharField(max_length=255)
-    args_pickled = models.TextField()
-    kwargs_pickled = models.TextField()
+    args_pickled = models.TextField(editable=False)
+    kwargs_pickled = models.TextField(editable=False)
 
     def _get_args(self):
         return self._unpickle(self.args_pickled)
@@ -57,6 +57,9 @@ class ScheduledJob(models.Model):
     def __repr__(self):
         return '<ScheduledJob (%s) callable=%r>' % (
                     self.status, self.callable_name)
+
+    def __unicode__(self):
+        return self.callable_name
 
     def run(self):
         # TODO: logging?

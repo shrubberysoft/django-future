@@ -2,7 +2,7 @@
 About
 -----
 
-**django_future** is a Django tool for scheduling jobs on specified times.
+**django_future** is a Django app for scheduling jobs on specified times.
 
 
 -----

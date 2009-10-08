@@ -2,17 +2,21 @@
 About
 -----
 
-**django_future** is a Django app for scheduling jobs on specified times.
+**django-future** is a Django app for scheduling jobs on specified times.
 
+**django-future** allows you to schedule invocation of callables at a given
+time.  The job queue is stored in the database and can be managed through the
+admin interface.  Queued jobs are run by invoking an external django management
+command.
 
 -----
 Usage
 -----
 
-You need to have **django_future** installed. A recent versions should be
+You need to have **django-future** installed. A recent version should be
 available from PyPI.
 
-To schedule jobs, use the ``django_future.schedule_job`` function:
+To schedule jobs from your code, use the ``schedule_job()`` function:
 
     >>> from django_future import schedule_job
     >>> import datetime
@@ -20,8 +24,10 @@ To schedule jobs, use the ``django_future.schedule_job`` function:
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')
 
-To run outstanding jobs, use the Django management command
-``runscheduledjobs``.
+To run outstanding jobs, invoke the Django management command
+``runscheduledjobs``.  You will probably want to run this command
+regularly, perhaps in a cron job, to ensure that scheduled jobs
+are run in a timely manner.
 
 ----------------
 Scheduling times
@@ -61,11 +67,11 @@ You can also associate a job with a database object:
     >>> schedule_job('5d', 'myproject.myapp.x',
     ...              content_object=some_model_instance)
 
-If specified, the content object will be passed in as the first parameter to
-the callable.
+If specified, the content object will be passed in to the callable as the first
+parameter.
 
 If you decorate your handler using ``job_as_parameter``, the active job will be
-passed as a parameter:
+passed as a parameter.  Example:
 
     >>> from django_future import job_as_parameter
 
@@ -86,6 +92,10 @@ copies attributes of the current job.
     ... def handler(job, n=5):
     ...     job.reschedule('3d', kwargs={'n': 6})
 
+When you pass a relative time value to ``reschedule()``, the new scheduled time
+is calculated by adding the offset to the time at the moment you call
+``reschedule()``.
+
 -------
 Caveats
 -------
@@ -96,13 +106,13 @@ is still active, some jobs may be executed twice because of race conditions.
 Exceptions raised by jobs will simply crash the job runner with a traceback.
 
 Database transactions are not used for jobs. If you need transactional
-behaviour, you will have to handle them manually.
+behaviour, you will have to implement it manually.
 
 --------
 Feedback
 --------
 
-There is a `home page <http://github.com/shrubberysoft/django_future>`_ with
+There is a `home page <http://github.com/shrubberysoft/django-future>`_ with
 instructions on how to access the code repository.
 
 Send feedback and suggestions to team@shrubberysoft.com.

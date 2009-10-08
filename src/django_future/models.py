@@ -2,7 +2,6 @@ import datetime
 import cPickle
 from django.db import models
 from django.conf import settings
-
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
@@ -68,3 +67,18 @@ class ScheduledJob(models.Model):
         if hasattr(callable_func, 'job_as_parameter'):
             args = [self] + list(args)
         callable_func(*args, **kwargs)
+
+    def reschedule(self, date, callable_name=None, content_object=None,
+                   expires='7d', args=None, kwargs=None):
+        """Schedule a clone of this job."""
+        if callable_name is None:
+            callable_name = self.callable_name
+        if content_object is None:
+            content_object = self.content_object
+        if args is None:
+            args = self.args
+        if kwargs is None:
+            kwargs = self.kwargs
+        from django_future import schedule_job
+        return schedule_job(date, callable_name, content_object=content_object,
+                            expires=expires, args=args, kwargs=kwargs)

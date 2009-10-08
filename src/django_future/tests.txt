@@ -72,6 +72,15 @@ You can also bind model objects to jobs.
 
     TODO: bind to a sample model
 
+Rescheduling
+------------
+
+    >>> job = schedule_job('0h', 'django_future.tests.sample_job')
+
+    >>> job2 = job.reschedule('3d')
+    >>> job2.callable_name
+    'django_future.tests.job_job'
+
 Errors
 ------
 

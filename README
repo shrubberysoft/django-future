@@ -73,6 +73,19 @@ passed as a parameter:
     ... def handler(job):
     ...     do_stuff()
 
+------------
+Rescheduling
+------------
+
+Some jobs may need to be repeated.  You can achieve this by scheduling a new
+job in the handler of a job, but it is more convenient to use the ``reschedule``
+method on jobs. ``reschedule`` has the same signature as ``schedule_job``, but
+copies attributes of the current job.
+
+    >>> @job_as_parameter
+    ... def handler(job, n=5):
+    ...     job.reschedule('3d', kwargs={'n': 6})
+
 -------
 Caveats
 -------

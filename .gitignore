@@ -3,5 +3,5 @@
 /build
 /dist
 /temp
-/src/django_scheduledjobs.egg-info
+/src/django_future.egg-info
 

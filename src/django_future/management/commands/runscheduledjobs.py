@@ -3,7 +3,7 @@
 import datetime
 from django.core.management.base import BaseCommand
 
-from django_scheduledjobs import run_jobs
+from django_future import run_jobs
 
 
 class Command(BaseCommand):

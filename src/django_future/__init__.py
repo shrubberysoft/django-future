@@ -1,7 +1,7 @@
-"""Scheduled jobs."""
+"""Django-future -- scheduled jobs in Django."""
 
 import datetime
-from django_scheduledjobs.models import ScheduledJob
+from django_future.models import ScheduledJob
 
 
 def schedule_job(date, callable_name, content_object=None, expires=None,

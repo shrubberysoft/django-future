@@ -2,16 +2,16 @@ Scheduled jobs
 ==============
 
     >>> import datetime
-    >>> from django_scheduledjobs import schedule_job, ScheduledJob
+    >>> from django_future import schedule_job, ScheduledJob
 
 Let's create some jobs:
 
     >>> dt = datetime.timedelta(0)
-    >>> schedule_job(dt, 'django_scheduledjobs.tests.sample_job')
+    >>> schedule_job(dt, 'django_future.tests.sample_job')
 
 You can pass in arguments to jobs:
 
-    >>> schedule_job(dt, 'django_scheduledjobs.tests.job_with_args',
+    >>> schedule_job(dt, 'django_future.tests.job_with_args',
     ...              args=[11], kwargs=dict(k=12))
 
 You can also bind model objects to jobs.
@@ -20,7 +20,7 @@ You can also bind model objects to jobs.
 
 Now run the jobs:
 
-    >>> from django_scheduledjobs import run_jobs
+    >>> from django_future import run_jobs
     >>> run_jobs()
     Simple job executed.
     Job with arguments: n = 11, k = 12

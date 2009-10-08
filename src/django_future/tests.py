@@ -1,5 +1,5 @@
 """
-Tests for django_scheduledjobs.
+Tests for django_future.
 """
 
 import unittest

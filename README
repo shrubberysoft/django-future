@@ -2,7 +2,7 @@
 About
 -----
 
-**django_future** is a tool for scheduling jobs on given times.
+**django_future** is a Django tool for scheduling jobs on specified times.
 
 
 -----
@@ -20,6 +20,15 @@ Use the ``django_future.schedule_job`` function to schedule new jobs:
     ...              'myproject.myapp.handlers.dosomething')
 
 To run outstanding jobs, use the Django management command 'runscheduledjobs'.
+
+-------
+Caveats
+-------
+
+The job runner does not do locking.  If you run it while a previous run
+is still active, some jobs may be executed twice because of race conditions.
+
+Exceptions raised by jobs will simply crash the job runner with a traceback.
 
 --------
 Feedback

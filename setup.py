@@ -28,7 +28,7 @@ latest_changes = '\n\n\n'.join(changes[:3])
 
 
 setup(name='django-future',
-    version='0.1.3',
+    version='0.1.4',
     description='Scheduled jobs in Django',
     long_description=open('README').read() + '\n\n' + latest_changes,
     author='Shrubbery Software',

@@ -2,7 +2,8 @@
 About
 -----
 
-**django-future** is a Django app for scheduling jobs on specified times.
+**django-future** is a Django application for scheduling jobs on specified
+times.
 
 **django-future** allows you to schedule invocation of callables at a given
 time.  The job queue is stored in the database and can be managed through the
@@ -16,11 +17,11 @@ Usage
 You need to have **django-future** installed. A recent version should be
 available from PyPI.
 
-To schedule jobs from your code, use the ``schedule_job()`` function:
+To schedule jobs from your code, use the ``schedule_job`` function::
 
     >>> from django_future import schedule_job
     >>> import datetime
-
+    
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')
 
@@ -53,16 +54,18 @@ Scheduling times
 
 There are several ways to indicate the time the job should be executed.
 You can use a straight datetime (as above), but you can also specify an offset
-from the present.  The offset can be a specified as a timedelta:
+from the present.  The offset can be a specified as a timedelta::
 
     >>> schedule_job(datetime.timedelta(days=5), 'myproject.myapp.x')
 
-or it can be a string:
+or it can be a string::
 
     >>> schedule_job('5d', 'myproject.myapp.x')
 
 An expiry time (one week by default) may also be specified so that old jobs
 will not be run by accident.
+
+::
 
     >>> schedule_job('5d', 'myproject.myapp.x', expires='7d')
 
@@ -72,7 +75,7 @@ The expiry date is calculated relative to the scheduled time.
 Parameters
 ----------
 
-You can pass parameters to jobs:
+You can pass parameters to jobs::
 
     >>> schedule_job('5d', 'myproject.myapp.x',
     ...              args=[1, 2], kwargs={'foo': 'bar'})
@@ -80,7 +83,7 @@ You can pass parameters to jobs:
 The parameters will be passed on to the callable.  Note that the parameters
 have to be picklable.
 
-You can also associate a job with a database object:
+You can also associate a job with a database object::
 
     >>> schedule_job('5d', 'myproject.myapp.x',
     ...              content_object=some_model_instance)
@@ -89,10 +92,10 @@ If specified, the content object will be passed in to the callable as the first
 parameter.
 
 If you decorate your handler using ``job_as_parameter``, the active job will be
-passed as a parameter.  Example:
+passed as a parameter.  Example::
 
     >>> from django_future import job_as_parameter
-
+    
     >>> @job_as_parameter
     ... def handler(job):
     ...     do_stuff()
@@ -106,13 +109,15 @@ job in the handler of a job, but it is more convenient to use the ``reschedule``
 method on jobs. ``reschedule`` has the same signature as ``schedule_job``, but
 copies attributes of the current job.
 
+::
+
     >>> @job_as_parameter
     ... def handler(job, n=5):
     ...     job.reschedule('3d', kwargs={'n': 6})
 
-When you pass a relative time value to ``reschedule()``, the new scheduled time
+When you pass a relative time value to ``reschedule``, the new scheduled time
 is calculated by adding the offset to the time at the moment you call
-``reschedule()``.
+``reschedule``.
 
 -------
 Caveats

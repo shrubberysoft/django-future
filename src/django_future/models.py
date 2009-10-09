@@ -4,6 +4,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from picklefield import PickledObjectField
 
 
 __all__ = ['ScheduledJob']
@@ -33,31 +34,13 @@ class ScheduledJob(models.Model):
     content_object = generic.GenericForeignKey()
 
     callable_name = models.CharField(max_length=255)
-    args_pickled = models.TextField(editable=False)
-    kwargs_pickled = models.TextField(editable=False)
+    args = PickledObjectField()
+    kwargs = PickledObjectField()
     error = models.TextField(blank=True, null=True)
 
     class Meta:
         get_latest_by = 'time_slot_start'
         ordering = ['time_slot_start']
-
-    def _get_args(self):
-        return self._unpickle(self.args_pickled)
-    def _set_args(self, value):
-        self.args_pickled = self._pickle(value)
-    args = property(_get_args, _set_args)
-
-    def _get_kwargs(self):
-        return self._unpickle(self.kwargs_pickled)
-    def _set_kwargs(self, value):
-        self.kwargs_pickled = self._pickle(value)
-    kwargs = property(_get_kwargs, _set_kwargs)
-
-    def _pickle(self, value):
-        return cPickle.dumps(value).encode('base64')
-
-    def _unpickle(self, s):
-        return cPickle.loads(str(s).decode('base64'))
 
     def __repr__(self):
         return '<ScheduledJob (%s) callable=%r>' % (

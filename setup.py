@@ -31,6 +31,7 @@ setup(name='django-future',
     packages=find_packages('src'),
     package_dir={'' : 'src'},
     package_data={'django_future': ['*.txt']},
+    install_requires=['django-picklefield'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Django',

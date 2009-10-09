@@ -21,7 +21,7 @@ To schedule jobs from your code, use the ``schedule_job`` function::
 
     >>> from django_future import schedule_job
     >>> import datetime
-    
+
     >>> schedule_job(datetime.datetime(2010, 10, 10),
     ...              'myproject.myapp.handlers.dosomething')
 
@@ -95,7 +95,7 @@ If you decorate your handler using ``job_as_parameter``, the active job will be
 passed as a parameter.  Example::
 
     >>> from django_future import job_as_parameter
-    
+
     >>> @job_as_parameter
     ... def handler(job):
     ...     do_stuff()

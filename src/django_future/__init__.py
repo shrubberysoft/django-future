@@ -60,9 +60,15 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
         raise ValueError('jobs in progress found; aborting')
     if now is None:
         now = datetime.datetime.now()
+    # Expire jobs.
+    expired_jobs = ScheduledJob.objects.filter(status='scheduled',
+                                               time_slot_end__lt=now)
+    for job in expired_jobs:
+        job.status = 'expired'
+        job.save()
+    # Get scheduled jobs.
     jobs = ScheduledJob.objects.filter(status='scheduled',
-                                       time_slot_start__lte=now,
-                                       time_slot_end__gt=now)
+                                       time_slot_start__lte=now)
     for job in jobs:
         job.status = 'running'
         job.execution_start = datetime.datetime.now()

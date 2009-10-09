@@ -143,6 +143,7 @@ Changes in version 0.1.9
 * When rescheduling, the new date is calculated from the scheduled date of the
   current job rather than the start of the actual run.
 * Implemented check for concurrent job processors properly.
+* Status of expired jobs is now set to 'expired'.
 
 Changes in version 0.1.8
 ========================

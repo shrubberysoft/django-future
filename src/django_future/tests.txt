@@ -45,8 +45,10 @@ default) has passed:
 
     >>> schedule_job('3d', 'django_future.tests.sample_job', expires='5d')
     <ScheduledJob (scheduled) callable='django_future.tests.sample_job'>
-
     >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(days=9))
+
+    >>> schedule_job('3d', 'django_future.tests.sample_job', expires='5d')
+    <ScheduledJob (scheduled) callable='django_future.tests.sample_job'>
     >>> run_jobs(now=datetime.datetime.now() + datetime.timedelta(days=7))
     Simple job executed.
 

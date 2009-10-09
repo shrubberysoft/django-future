@@ -74,7 +74,6 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
             exc_text = traceback.format_exc()
             transaction.rollback()
             job.error = exc_text
-            # TODO: complain somehow
             job.status = 'failed'
             job.save()
             if not ignore_errors:

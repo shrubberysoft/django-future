@@ -141,6 +141,13 @@ Send feedback and suggestions to team@shrubberysoft.com.
 Changes
 -------
 
+Changes in version 0.1.8
+========================
+
+* Updated admin interface: colored status, filtering by date.
+* Reused django-picklefield implementation for storing job arguments instead of
+  the homebrewn pickle field.
+
 Changes in version 0.1.7
 ========================
 

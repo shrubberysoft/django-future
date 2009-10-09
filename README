@@ -121,8 +121,8 @@ copies attributes of the current job.
     ...     job.reschedule('3d', kwargs={'n': 6})
 
 When you pass a relative time value to ``reschedule``, the new scheduled time
-is calculated by adding the offset to the time at the moment you call
-``reschedule``.
+is calculated by adding the offset to the *scheduling time* of the original job,
+not to the time the job was actually executed.
 
 --------
 Feedback

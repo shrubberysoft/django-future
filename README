@@ -141,6 +141,12 @@ Send feedback and suggestions to team@shrubberysoft.com.
 Changes
 -------
 
+Changes in version 0.1.7
+========================
+
+* Doctests are now part of the source distribution.
+
+
 Changes in version 0.1.6
 ========================
 

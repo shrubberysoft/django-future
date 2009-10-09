@@ -79,8 +79,8 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
             # TODO: complain somehow
             job.status = 'failed'
             job.save()
-            transaction.commit()
             if not ignore_errors:
+                transaction.commit()
                 raise
         else:
             transaction.commit()
@@ -89,4 +89,8 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
             else:
                 job.status = 'complete'
                 job.save()
-            transaction.commit()
+        # Do not commit the transaction here on purpose, so that
+        # the next job is marked as active and the current one is marked as
+        # complete in the same transaction.
+
+    transaction.commit()

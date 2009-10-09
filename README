@@ -35,6 +35,11 @@ be processed by invoking the Django management command
 perhaps in a cron job, to ensure that scheduled jobs are run in a timely
 manner.
 
+When the job processor is started, it checks for concurrently active job
+processors.  If any active jobs are found, the new instance of the job
+processor will not continue and will raise an error, so you do not need to
+worry about overlapping parallel job runs.
+
 Each job is run in a separate database transaction.  If the handler raises
 an error, the transaction is rolled back.
 
@@ -119,15 +124,6 @@ When you pass a relative time value to ``reschedule``, the new scheduled time
 is calculated by adding the offset to the time at the moment you call
 ``reschedule``.
 
--------
-Caveats
--------
-
-The job processor will try to detect if there are jobs already running and
-will refuse to start in that case.  However, this check is not reliable: if
-another processor is inbetween jobs, the new processor will not detect the
-problem.
-
 --------
 Feedback
 --------
@@ -146,6 +142,7 @@ Changes in version 0.1.9
 
 * When rescheduling, the new date is calculated from the scheduled date of the
   current job rather than the start of the actual run.
+* Implemented check for concurrent job processors properly.
 
 Changes in version 0.1.8
 ========================

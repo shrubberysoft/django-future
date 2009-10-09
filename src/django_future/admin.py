@@ -4,10 +4,10 @@ from django_future.models import ScheduledJob
 
 class ScheduledJobAdmin(admin.ModelAdmin):
 
-    list_display = ('callable_name', 'time_slot_start', 'status', )
-    list_filter = ('status', )
+    list_display = ('time_slot_start', 'status', 'callable_name', 'args', 'kwargs')
+    list_filter = ('status', 'callable_name')
 
-# TODO: show reprs of args and kwargs
+# TODO: show (read-only) reprs of args and kwargs in job editor screen.
 
 
 admin.site.register(ScheduledJob, ScheduledJobAdmin)

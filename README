@@ -123,10 +123,10 @@ is calculated by adding the offset to the time at the moment you call
 Caveats
 -------
 
-The job runner does not do locking.  If you run it again while a previous run
-is still active, some jobs may be executed twice because of race conditions.
-
-Exceptions raised by jobs will simply crash the job runner with a traceback.
+The job processor will try to detect if there are jobs already running and
+will refuse to start in that case.  However, this check is not reliable: if
+another processor is inbetween jobs, the new processor will not detect the
+problem.
 
 --------
 Feedback
@@ -140,6 +140,12 @@ Send feedback and suggestions to team@shrubberysoft.com.
 -------
 Changes
 -------
+
+Changes in version 0.1.9
+========================
+
+* When rescheduling, the new date is calculated from the scheduled date of the
+  current job rather than the start of the actual run.
 
 Changes in version 0.1.8
 ========================

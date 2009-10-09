@@ -6,6 +6,8 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from picklefield import PickledObjectField
 
+from django_future.utils import parse_timedelta
+
 
 __all__ = ['ScheduledJob']
 
@@ -68,6 +70,12 @@ class ScheduledJob(models.Model):
     def reschedule(self, date, callable_name=None, content_object=None,
                    expires='7d', args=None, kwargs=None):
         """Schedule a clone of this job."""
+        # Resolve date relative to the expected start of the current job.
+        if isinstance(date, basestring):
+            date = parse_timedelta(date)
+        if isinstance(date, datetime.timedelta):
+            date = self.time_slot_start + date
+
         if callable_name is None:
             callable_name = self.callable_name
         if content_object is None:

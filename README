@@ -118,6 +118,7 @@ copies attributes of the current job.
 
     >>> @job_as_parameter
     ... def handler(job, n=5):
+    ...     do_something()
     ...     job.reschedule('3d', kwargs={'n': 6})
 
 When you pass a relative time value to ``reschedule``, the new scheduled time

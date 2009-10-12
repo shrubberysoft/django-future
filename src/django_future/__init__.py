@@ -46,6 +46,7 @@ def schedule_job(date, callable_name, content_object=None, expires='7d',
 
 
 def job_as_parameter(f):
+    """A decorator for job handlers that take the job as a parameter."""
     f.job_as_parameter = True
     return f
 

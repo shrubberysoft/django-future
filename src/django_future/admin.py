@@ -21,7 +21,7 @@ class ScheduledJobAdmin(admin.ModelAdmin):
     colorful_status.short_description = 'Status'
     colorful_status.allow_tags = True
 
-    list_display = ('time_slot_start', 'colorful_status', 'callable_name', 'args', 'kwargs')
+    list_display = ('time_slot_start', 'colorful_status', 'callable_name', 'args', 'kwargs', 'return_value')
     list_filter = ('status',)
     date_hierarchy = 'time_slot_start'
 

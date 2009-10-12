@@ -53,6 +53,9 @@ show the traceback.  If you do not want to abort the processing in such a case
 use the ``-i`` parameter.  Either way, if an exception occurs, the traceback
 will be stored on the job entry in the database.
 
+If a job returns a value, the unicode representation of that value will also be
+stored on the job entry in the database.
+
 ----------------
 Scheduling times
 ----------------
@@ -137,6 +140,11 @@ Send feedback and suggestions to team@shrubberysoft.com.
 -------
 Changes
 -------
+
+Changes in version 0.2.0
+========================
+
+* Store the string value returned by the job.
 
 Changes in version 0.1.9
 ========================

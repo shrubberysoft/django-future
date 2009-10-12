@@ -39,6 +39,7 @@ class ScheduledJob(models.Model):
     args = PickledObjectField()
     kwargs = PickledObjectField()
     error = models.TextField(blank=True, null=True)
+    return_value = models.TextField(blank=True, null=True)
 
     class Meta:
         get_latest_by = 'time_slot_start'
@@ -65,7 +66,7 @@ class ScheduledJob(models.Model):
             callable_func = getattr(self.content_object, self.callable_name)
         if hasattr(callable_func, 'job_as_parameter'):
             args = [self] + list(args)
-        callable_func(*args, **kwargs)
+        return callable_func(*args, **kwargs)
 
     def reschedule(self, date, callable_name=None, content_object=None,
                    expires='7d', args=None, kwargs=None):

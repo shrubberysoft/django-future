@@ -22,7 +22,7 @@ import os.path
 from setuptools import setup, find_packages
 
 setup(name='django-future',
-    version='0.1.9',
+    version='0.2.0',
     description='Scheduled jobs in Django',
     long_description=open('README').read(),
     author='Shrubbery Software',

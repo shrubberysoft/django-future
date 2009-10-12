@@ -75,7 +75,7 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
         job.save()
         transaction.commit()
         try:
-            job.run()
+            return_value = job.run()
         except Exception:
             exc_text = traceback.format_exc()
             transaction.rollback()
@@ -91,6 +91,8 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
                 job.delete()
             else:
                 job.status = 'complete'
+                job.return_value = (unicode(return_value)
+                                    if return_value is not None else None)
                 job.save()
         # Do not commit the transaction here on purpose, so that
         # the next job is marked as active and the current one is marked as

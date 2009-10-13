@@ -80,7 +80,6 @@ def import_app_jobs():
 
 
 def schedule_sticky_jobs():
-    # TODO: Import modules that may contain sticky jobs!
     import_app_jobs()
     for handler in STICKY_JOBS:
         callable_name = '%s.%s' (handler.__module__, handler.__name__)

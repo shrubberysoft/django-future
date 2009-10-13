@@ -2,6 +2,7 @@
 
 import datetime
 import traceback
+from django.conf import settings
 from django.db import transaction
 from django_future.models import ScheduledJob
 from django_future.utils import parse_timedelta
@@ -51,25 +52,49 @@ def job_as_parameter(f):
     return f
 
 
-@transaction.commit_manually
-def run_jobs(delete_completed=False, ignore_errors=False, now=None):
-    """Run scheduled jobs.
+STICKY_JOBS = []
 
-    You may specify a date to be treated as the current time.
-    """
-    if ScheduledJob.objects.filter(status='running'):
-        raise ValueError('jobs in progress found; aborting')
-    if now is None:
-        now = datetime.datetime.now()
 
-    # Expire jobs.
+def sticky_job(f):
+    """A decorator that ensures that an instance of this job is always queued."""
+    STICKY_JOBS.append(f)
+    return f
+
+
+def expire_jobs(dt):
     expired_jobs = ScheduledJob.objects.filter(status='scheduled',
-                                               time_slot_end__lt=now)
+                                               time_slot_end__lt=dt)
     expired_jobs.update(status='expired')
 
+
+def import_app_jobs():
+    """Import the 'jobs' module from all applications.
+
+    This is needed so that the `sticky` decorator has a chance to work.
+    """
+    for app_name in settings.INSTALLED_APPS:
+        try:
+            __import__(app_name + '.jobs')
+        except ImportError:
+            pass # No jobs module.
+
+
+def schedule_sticky_jobs():
+    # TODO: Import modules that may contain sticky jobs!
+    import_app_jobs()
+    for handler in STICKY_JOBS:
+        callable_name = '%s.%s' (handler.__module__, handler.__name__)
+        scheduled = ScheduledJob.objects.filter(callable_name=callable_name,
+                                                status='scheduled')
+        if not scheduled.count():
+            schedule_job('0d', callable_name)
+
+
+@transaction.commit_manually
+def start_scheduled_jobs(dt):
     # Get scheduled jobs.
     jobs = ScheduledJob.objects.filter(status='scheduled',
-                                       time_slot_start__lte=now)
+                                       time_slot_start__lte=dt)
     for job in jobs:
         job.status = 'running'
         job.execution_start = datetime.datetime.now()
@@ -100,3 +125,18 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
         # complete in the same transaction.
 
     transaction.commit()
+
+
+def run_jobs(delete_completed=False, ignore_errors=False, now=None):
+    """Run scheduled jobs.
+
+    You may specify a date to be treated as the current time.
+    """
+    if ScheduledJob.objects.filter(status='running'):
+        raise ValueError('jobs in progress found; aborting')
+    if now is None:
+        now = datetime.datetime.now()
+
+    expire_jobs(now)
+    schedule_sticky_jobs()
+    start_scheduled_jobs(now)

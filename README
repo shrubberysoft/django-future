@@ -141,6 +141,11 @@ Send feedback and suggestions to team@shrubberysoft.com.
 Changes
 -------
 
+Changes in version 0.2.1
+========================
+
+* Fixed a bug in start_scheduled_jobs parameters (thanks to Maciek Szczesniak).
+
 Changes in version 0.2.0
 ========================
 

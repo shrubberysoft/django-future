@@ -26,6 +26,7 @@ def schedule_job(date, callable_name, content_object=None, expires='7d',
     passed.
 
     """
+    # TODO: allow to pass in a real callable, but check that it's a global
     assert callable_name and isinstance(callable_name, str), callable_name
     if isinstance(date, basestring):
         date = parse_timedelta(date)

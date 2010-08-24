@@ -141,6 +141,14 @@ Send feedback and suggestions to team@shrubberysoft.com.
 Changes
 -------
 
+Changes in version 0.2.1
+========================
+
+* Marked strings for translation.
+* Added German translation.
+* Raise a nicer error in case a job is running.
+* Use admin fieldset.
+
 Changes in version 0.2.0
 ========================
 

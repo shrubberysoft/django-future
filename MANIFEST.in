@@ -1,3 +1,4 @@
+include AUTHORS
 include README
 include setup.py
-recursive-include src/django_future *.txt *.py
+recursive-include src/django_future *.txt *.po *.mo

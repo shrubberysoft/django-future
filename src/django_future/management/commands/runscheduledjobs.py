@@ -2,7 +2,7 @@
 
 import datetime
 from optparse import make_option
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import NoArgsCommand, CommandError
 
 from django_future import run_jobs
 
@@ -21,5 +21,8 @@ class Command(NoArgsCommand):
     def handle(self, **options):
         delete_completed = bool(options.get('delete_completed', False))
         ignore_errors = bool(options.get('ignore_errors', False))
-        run_jobs(delete_completed=delete_completed,
-                 ignore_errors=ignore_errors)
+        try:
+            run_jobs(delete_completed=delete_completed,
+                     ignore_errors=ignore_errors)
+        except ValueError, e:
+            raise CommandError(e)

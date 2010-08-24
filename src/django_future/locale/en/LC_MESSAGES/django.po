@@ -1,0 +1,105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-08-24 14:36+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:33
+msgid "Schedule"
+msgstr ""
+
+#: admin.py:36
+msgid "Job"
+msgstr ""
+
+#: models.py:23
+msgid "Scheduled"
+msgstr ""
+
+#: models.py:24
+msgid "Running"
+msgstr ""
+
+#: models.py:25
+msgid "Failed"
+msgstr ""
+
+#: models.py:26
+msgid "Complete"
+msgstr ""
+
+#: models.py:27
+msgid "Expired"
+msgstr ""
+
+#: models.py:30
+msgid "time slot start"
+msgstr ""
+
+#: models.py:31
+msgid "time slot end"
+msgstr ""
+
+#: models.py:32
+msgid "execution start"
+msgstr ""
+
+#: models.py:33
+msgid "status"
+msgstr ""
+
+#: models.py:36
+msgid "content type"
+msgstr ""
+
+#: models.py:37
+msgid "object ID"
+msgstr ""
+
+#: models.py:40
+msgid "callable name"
+msgstr ""
+
+#: models.py:41
+msgid ""
+"The callable to be executed may be specified in two ways: Set the callable "
+"name to an identifier (mypackage.myapp.some_function). Or specify an "
+"instance of a model as the content object and set the callable name to a "
+"method name (do_job)."
+msgstr ""
+
+#: models.py:45
+msgid "args"
+msgstr ""
+
+#: models.py:46
+msgid "kwargs"
+msgstr ""
+
+#: models.py:47
+msgid "error"
+msgstr ""
+
+#: models.py:48
+msgid "return value"
+msgstr ""
+
+#: models.py:51
+msgid "scheduled job"
+msgstr ""
+
+#: models.py:52
+msgid "scheduled jobs"
+msgstr ""

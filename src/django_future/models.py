@@ -54,8 +54,8 @@ class ScheduledJob(models.Model):
 
     def run(self):
         # TODO: logging?
-        args = self.args
-        kwargs = self.kwargs
+        args = self.args or []
+        kwargs = self.kwargs or {}
         if '.' in self.callable_name:
             module_name, function_name = self.callable_name.rsplit('.', 1)
             module = __import__(module_name, fromlist=[function_name])
@@ -82,9 +82,9 @@ class ScheduledJob(models.Model):
         if content_object is None:
             content_object = self.content_object
         if args is None:
-            args = self.args
+            args = self.args or []
         if kwargs is None:
-            kwargs = self.kwargs
+            kwargs = self.kwargs or {}
         from django_future import schedule_job
         return schedule_job(date, callable_name, content_object=content_object,
                             expires=expires, args=args, kwargs=kwargs)

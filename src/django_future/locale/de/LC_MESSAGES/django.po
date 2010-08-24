@@ -1,0 +1,110 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: django-future\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-08-24 14:18+0200\n"
+"PO-Revision-Date: 2010-08-24 14:20+0200\n"
+"Last-Translator: Jannis Leidel <jannis@leidel.info>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: admin.py:33
+msgid "Schedule"
+msgstr "Zeitplan"
+
+#: admin.py:36
+msgid "Job"
+msgstr "Aufgabe"
+
+#: models.py:23
+msgid "Scheduled"
+msgstr "Geplant"
+
+#: models.py:24
+msgid "Running"
+msgstr "Läuft gerade"
+
+#: models.py:25
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+#: models.py:26
+msgid "Complete"
+msgstr "Vollständig"
+
+#: models.py:27
+msgid "Expired"
+msgstr "Abgelaufen"
+
+#: models.py:30
+msgid "time slot start"
+msgstr "Beginn"
+
+#: models.py:31
+msgid "time slot end"
+msgstr "Ende"
+
+#: models.py:32
+msgid "execution start"
+msgstr "Ausführungszeit"
+
+#: models.py:33
+msgid "status"
+msgstr "Status"
+
+#: models.py:36
+msgid "content type"
+msgstr "Inhaltstyp"
+
+#: models.py:37
+msgid "object ID"
+msgstr "Objekt-ID"
+
+#: models.py:40
+msgid "callable name"
+msgstr "Callable"
+
+#: models.py:41
+msgid ""
+"The callable to be executed may be specified in two ways: Set the callable "
+"name to an identifier (mypackage.myapp.some_function). Or specify an "
+"instance of a model as the content object and set the callable name to a "
+"method name (do_job)."
+msgstr ""
+"Dieses Callable kann auf zwei unterschiedliche Art und Weisen definiert "
+"werden: Entweder definieren sie es als einen Python Import-Pfad "
+"(mypackage.myapp.some_function) oder als Methodenname der Modellinstanz, "
+"die sie als Inhaltasobjekt ausgewählt haben (do_job)."
+
+#: models.py:45
+msgid "args"
+msgstr "args"
+
+#: models.py:46
+msgid "kwargs"
+msgstr "kwargs"
+
+#: models.py:47
+msgid "error"
+msgstr "Fehler"
+
+#: models.py:48
+msgid "return value"
+msgstr "Rückgabewert"
+
+#: models.py:51
+msgid "scheduled job"
+msgstr "Geplante Aufgabe"
+
+#: models.py:52
+msgid "scheduled jobs"
+msgstr "Geplante Aufgaben"

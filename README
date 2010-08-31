@@ -141,15 +141,28 @@ Send feedback and suggestions to team@shrubberysoft.com.
 Changes
 -------
 
+Changes in version 0.2.2
+========================
+
+(thanks to Jannis Leidel!)
+
+* Marked strings for translation.
+* Added German translation.
+* Raise a nicer error in case a job is running.
+* Use admin fieldset.
+
+
 Changes in version 0.2.1
 ========================
 
 * Fixed a bug in start_scheduled_jobs parameters (thanks to Maciek Szczesniak).
 
+
 Changes in version 0.2.0
 ========================
 
 * Store the string value returned by the job.
+
 
 Changes in version 0.1.9
 ========================
@@ -159,12 +172,14 @@ Changes in version 0.1.9
 * Implemented check for concurrent job processors properly.
 * Status of expired jobs is now set to 'expired'.
 
+
 Changes in version 0.1.8
 ========================
 
 * Updated admin interface: colored status, filtering by date.
 * Reused django-picklefield implementation for storing job arguments instead of
   the homebrewn pickle field.
+
 
 Changes in version 0.1.7
 ========================
@@ -210,4 +225,3 @@ Changes in version 0.1
 ======================
 
 * First public release.
-

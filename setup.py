@@ -18,11 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import os.path
 from setuptools import setup, find_packages
 
 setup(name='django-future',
-    version='0.2.1',
+    version='0.2.2',
     description='Scheduled jobs in Django',
     long_description=open('README').read(),
     author='Shrubbery Software',
@@ -30,7 +29,7 @@ setup(name='django-future',
     url='http://github.com/shrubberysoft/django-future',
     packages=find_packages('src'),
     package_dir={'' : 'src'},
-    package_data={'django_future': ['*.txt']},
+    package_data={'django_future': ['*.txt', 'locale/*/LC_MESSAGES/*']},
     install_requires=['django-picklefield'],
     classifiers=[
         'Development Status :: 4 - Beta',

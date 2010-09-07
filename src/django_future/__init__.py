@@ -91,7 +91,7 @@ def schedule_sticky_jobs():
 
 
 @transaction.commit_manually
-def start_scheduled_jobs(dt, delete_completed):
+def start_scheduled_jobs(dt, delete_completed, ignore_errors):
     # Get scheduled jobs.
     jobs = ScheduledJob.objects.filter(status='scheduled',
                                        time_slot_start__lte=dt)
@@ -139,4 +139,4 @@ def run_jobs(delete_completed=False, ignore_errors=False, now=None):
 
     expire_jobs(now)
     schedule_sticky_jobs()
-    start_scheduled_jobs(now, delete_completed)
+    start_scheduled_jobs(now, delete_completed, ignore_errors)
